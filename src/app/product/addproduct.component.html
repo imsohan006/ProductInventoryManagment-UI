@@ -1,0 +1,133 @@
+<div class="product-nav">
+    <div>
+      <a routerLinkActive="active" routerLink="/product" class="navbar-brand">Product Inventory Managment Application</a>
+    </div>
+    <div class="account" style="margin-left:68%">
+        <h4>Hi! {{username}} 
+          <div class="dropdown">
+            <a class="dropbtn"><span class="spansize glyphicon glyphicon-user"></span></a>
+            <div class="dropdown-content">
+              <a routerLinkActive="active" routerLink="/addproduct">Add Product</a>
+              <a (click)="logout()">Log Out</a>
+            </div>
+          </div>
+        </h4>
+    </div> 
+</div>
+
+  <div class="container addForm">
+
+    <form [formGroup]="addProductForm" (ngSubmit)="saveAndUpdate()" class="form-horizontal">
+      <div class="form-group" [ngClass]="{'has-error': addProductForm.get('productname').errors && (addProductForm.get('productname').touched || addProductForm.get('productname').dirty)}">
+            <label for="productname">Product Name</label>
+            <input type="text" style="text-transform: capitalize;" class="form-control" name="productname" id="productname" formControlName="productname"/>
+            <span *ngIf="addProductForm.get('productname').errors && (addProductForm.get('productname').touched || addProductForm.get('productname').dirty)">
+            <div class="alert alert-danger" *ngIf="addProductForm.get('productname').errors?.required">
+              Product Name is required.
+            </div>
+            <div class="alert alert-danger" *ngIf="addProductForm.get('productname').errors?.pattern">
+              Product Name Contains Alphabats only.
+            </div>
+            </span>
+        </div>
+
+        <div class="form-group" [ngClass]="{'has-error': addProductForm.get('category').errors && (addProductForm.get('category').touched || addProductForm.get('category').dirty)}">
+            <label for="category">Product Category</label>
+            <input type="text" style="text-transform: capitalize;" class="form-control" name="category" id="category" formControlName="category"/>
+            <span *ngIf="addProductForm.get('category').errors && (addProductForm.get('category').touched || addProductForm.get('category').dirty)">
+            <div class="alert alert-danger" *ngIf="addProductForm.get('category').errors?.required">
+              Product Category is required.
+            </div>
+            <div class="alert alert-danger" *ngIf="addProductForm.get('category').errors?.pattern">
+              Product Category Contains Alphabats only.
+            </div>
+            </span>
+        </div>
+
+        <div class="form-group" [ngClass]="{'has-error': addProductForm.get('subcategory').errors && (addProductForm.get('subcategory').touched || addProductForm.get('subcategory').dirty)}">
+            <label for="subcategory">Product Sub Category</label>
+            <input type="text" style="text-transform: capitalize;" class="form-control" name="subcategory" id="subcategory" formControlName="subcategory"/>
+            <span *ngIf="addProductForm.get('subcategory').errors && (addProductForm.get('subcategory').touched || addProductForm.get('subcategory').dirty)">
+            <div class="alert alert-danger" *ngIf="addProductForm.get('subcategory').errors?.required">
+              Product Sub Category is required.
+            </div>
+            <div class="alert alert-danger" *ngIf="addProductForm.get('subcategory').errors?.pattern">
+              Product Sub Category Contains Alphabats only.
+            </div>
+            </span>
+        </div>
+
+        <div class="form-group" [ngClass]="{'has-error': addProductForm.get('quantity').errors && (addProductForm.get('quantity').touched || addProductForm.get('quantity').dirty)}">
+            <label for="quantity">Product Quantity</label>
+            <input type="number" min="1" class="form-control" name="quantity" id="quantity" formControlName="quantity"/>
+            <span *ngIf="addProductForm.get('quantity').errors && (addProductForm.get('quantity').touched || addProductForm.get('quantity').dirty)">
+            <div class="alert alert-danger" *ngIf="addProductForm.get('quantity').errors?.required">
+              Product Quantity is required.
+            </div>
+            <div class="alert alert-danger" *ngIf="addProductForm.get('quantity').errors.pattern">
+              Product Quantity Contains Digits With Max 4 Digit only.
+            </div>
+            </span>
+        </div>
+
+        <div class="form-group" [ngClass]="{'has-error': addProductForm.get('price').errors && (addProductForm.get('price').touched || addProductForm.get('price').dirty)}">
+            <label for="price">Product Price</label>
+            <input type="number" min="1" class="form-control" name="price" id="price" formControlName="price" step="0.01" (change)="setTwoNumberDecimal($event)" (ngModelChange)="price=$event"/>
+            <span *ngIf="addProductForm.get('price').errors && (addProductForm.get('price').touched || addProductForm.get('price').dirty)">
+            <div class="alert alert-danger" *ngIf="addProductForm.get('price').errors?.required">
+              Product Price is required.
+            </div>
+            <div class="alert alert-danger" *ngIf="addProductForm.get('price').errors.pattern">
+              Product Price Contains Digits And Max 8 Digits Only.
+            </div>
+            </span>
+        </div>
+
+        <div class="form-group" [ngClass]="{'has-error': addProductForm.get('discount').errors && (addProductForm.get('discount').touched || addProductForm.get('discount').dirty)}">
+            <label for="discount">Product Discount Percentage</label>
+            <input type="number" min="0" max="100" class="form-control" name="discount" id="discount" formControlName="discount"/>
+            <span *ngIf="addProductForm.get('discount').errors && (addProductForm.get('discount').touched || addProductForm.get('discount').dirty)">
+            <div class="alert alert-danger" *ngIf="addProductForm.get('discount').errors?.required">
+              Product Discount is required.
+            </div>
+            <div class="alert alert-danger" *ngIf="addProductForm.get('discount').errors.pattern">
+              Product Discount Contains Digits only.
+            </div>
+            </span>
+        </div>
+
+        <div class="form-group" [ngClass]="{'has-error': addProductForm.get('salefrom').errors && (addProductForm.get('salefrom').touched || addProductForm.get('salefrom').dirty)}">
+          <label for="salefrom">Sale From</label>
+          <input type="date" class="form-control" name="salefrom" id="salefrom" [ngModel]="salefrom" formControlName="salefrom"/>
+          <span *ngIf="addProductForm.get('salefrom').errors && (addProductForm.get('salefrom').touched || addProductForm.get('salefrom').dirty)">
+          <div class="alert alert-danger" *ngIf="addProductForm.get('salefrom').errors?.required">
+            Product Sale From Date is required.
+          </div>
+          </span>
+        </div>
+
+        <div class="form-group" [ngClass]="{'has-error': addProductForm.get('saleto').errors && (addProductForm.get('saleto').touched || addProductForm.get('saleto').dirty)}">
+          <label for="saleto">Sale To</label>
+          <input type="date" class="form-control" name="saleto" id="saleto" formControlName="saleto"/>
+          <span *ngIf="addProductForm.get('saleto').errors && (addProductForm.get('saleto').touched || addProductForm.get('saleto').dirty)">
+          <div class="alert alert-danger" *ngIf="addProductForm.get('saleto').errors?.required">
+            Product Sale To Date is required.
+          </div>
+          </span>
+        </div>
+
+        <!--div class="form-group" [ngClass]="{'has-error': addProductForm.get('image').errors && (addProductForm.get('image').touched || addProductForm.get('image').dirty)}">
+            <label for="image">Product Image</label>
+            <input type="file" class="form-control" name="image" id="image" formControlName="image" (change)="fileDetails($event)"/>
+            <span *ngIf="addProductForm.get('image').errors && (addProductForm.get('image').touched || addProductForm.get('image').dirty)">
+            <div class="alert alert-danger" *ngIf="addProductForm.get('image').errors?.required">
+              Product Image is required.
+            </div>
+            </span>
+        </div-->
+  
+      <button type="submit" class="btn btn-success btan" [disabled]=" !addProductForm.valid">Submit</button>
+      <button type="reset" class="btn btn-danger btan" (click)="cancelConfirm()">Cancel</button>
+    </form>
+
+  </div>

@@ -1,0 +1,36 @@
+<div class="container bg-img login-main">
+    <div class="info">
+        Welcome To Our Product Inventory Managment System.
+    </div>
+  <div class="formmargin">
+      <div class="alert alert-danger" *ngIf="isLoginFailed">
+        Incorrect Email or Password.
+      </div>
+  <form [formGroup]="userLoginForm" (ngSubmit)="signIN()" class="form-horizontal">
+      <div class="form-group" [ngClass]="{'has-error': userLoginForm.get('emailid').errors && (userLoginForm.get('emailid').touched || userLoginForm.get('emailid').dirty)}">
+          <label for="emailid">Email</label>
+          <input type="text" class="form-control" name="emailid" formControlName="emailid" ngModel [email]="true"/>
+          <span *ngIf="userLoginForm.get('emailid').errors && (userLoginForm.get('emailid').touched || userLoginForm.get('emailid').dirty)">
+            <div class="alert alert-danger" *ngIf="userLoginForm.get('emailid').errors?.required">
+              Email Address is required
+            </div>
+            <div class="alert alert-danger" *ngIf="userLoginForm.get('emailid').errors?.email">
+                Worng Email Address
+            </div>
+          </span>
+      </div>
+      <div class="form-group" [ngClass]="{'has-error': userLoginForm.get('password').errors && (userLoginForm.get('password').touched || userLoginForm.get('password').dirty)}">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" name="password" formControlName="password"/>
+          <span *ngIf="userLoginForm.get('password').errors && (userLoginForm.get('password').touched || userLoginForm.get('password').dirty)">
+            <div class="alert alert-danger" *ngIf="userLoginForm.get('password').errors?.required">
+              Password required
+            </div>
+          </span>
+      </div><br>
+
+    <button type="submit" class="btn btn-success" [disabled]="!userLoginForm.valid">Log In</button>&nbsp;&nbsp;&nbsp;
+    <a routerLinkActive="active" rel="register" routerLink="/register">Register</a>
+  </form>
+  <div>
+</div>

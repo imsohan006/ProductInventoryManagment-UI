@@ -1,0 +1,78 @@
+<div class="container bg-img register-main">
+  <div class="info">
+      Welcome To Our Product Inventory Managment System.
+  </div>
+  <div class="formmargin">
+      <div class="alert alert-danger" *ngIf="isLoginFailed">
+          Incorrect Email or Password.
+        </div>
+    <form [formGroup]="userRegisterationForm" (ngSubmit)="save()" class="form-horizontal">
+        <div class="form-group" [ngClass]="{'has-error': userRegisterationForm.get('firstname').errors && (userRegisterationForm.get('firstname').touched || userRegisterationForm.get('firstname').dirty)}">
+            <label for="firstname">First Name</label>
+            <input type="text" style="text-transform: capitalize;" class="form-control" name="firstname" id="firstname" formControlName="firstname"/>
+            <span *ngIf="userRegisterationForm.get('firstname').errors && (userRegisterationForm.get('firstname').touched || userRegisterationForm.get('firstname').dirty)">
+            <div class="alert alert-danger" *ngIf="userRegisterationForm.get('firstname').errors?.required">
+              First Name is required.
+            </div>
+            <div class="alert alert-danger" *ngIf="userRegisterationForm.get('firstname').errors?.pattern">
+              First Name contains char only.
+            </div>
+            </span>
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': userRegisterationForm.get('lastname').errors && (userRegisterationForm.get('lastname').touched || userRegisterationForm.get('lastname').dirty)}">
+            <label for="lastname">Last Name</label>
+            <input type="text" style="text-transform: capitalize;" class="form-control" name="lastname" formControlName="lastname"/>
+            <span *ngIf="userRegisterationForm.get('lastname').errors && (userRegisterationForm.get('lastname').touched || userRegisterationForm.get('lastname').dirty)">
+              <div class="alert alert-danger" *ngIf="userRegisterationForm.get('lastname').errors?.required">
+                Last Name is required.
+              </div>
+              <div class="alert alert-danger" *ngIf="userRegisterationForm.get('lastname').errors?.pattern">
+                Last Name contains char only.
+              </div>
+            </span>
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': userRegisterationForm.get('emailid').errors && (userRegisterationForm.get('emailid').touched || userRegisterationForm.get('emailid').dirty)}">
+            <label for="emailid">Email</label>
+            <input type="text" class="form-control" name="emailid" formControlName="emailid" ngModel [email]="true"/>
+            <span *ngIf="userRegisterationForm.get('emailid').errors && (userRegisterationForm.get('emailid').touched || userRegisterationForm.get('emailid').dirty)">
+              <div class="alert alert-danger" *ngIf="userRegisterationForm.get('emailid').errors?.required">
+                Email Address is required.
+              </div>
+              <div class="alert alert-danger" *ngIf="userRegisterationForm.get('emailid').errors?.email">
+                  Not An Valid Email Address.
+              </div>
+            </span>
+        </div>
+        <div class="form-group" [ngClass]="{'has-error': userRegisterationForm.get('password').errors && (userRegisterationForm.get('password').touched || userRegisterationForm.get('password').dirty)}">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" formControlName="password"/>
+            <span *ngIf="userRegisterationForm.get('password').errors && (userRegisterationForm.get('password').touched || userRegisterationForm.get('password').dirty)">
+              <div class="alert alert-danger" *ngIf="userRegisterationForm.get('password').errors?.required">
+                Password required.
+              </div>
+              <div class="alert alert-danger" *ngIf="userRegisterationForm.get('password').errors?.minlength">
+                  Minimum 8 Length Password Required.
+              </div>
+              <!-->div class="alert alert-danger" *ngIf="userRegisterationForm.get('password').errors?.pattern">
+                Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.
+            </div-->
+            </span>
+        </div>
+      <div class="form-group" [ngClass]="{'has-error': userRegisterationForm.get('cnfpass').errors && (userRegisterationForm.get('cnfpass').touched || userRegisterationForm.get('cnfpass').dirty)}">
+          <label for="cnfpass">Confirm Password</label>
+          <input type="password" class="form-control" name="cnfpass" formControlName="cnfpass" (keyup)="checkPassword($event)"/>
+          <span *ngIf="userRegisterationForm.get('cnfpass').errors && (userRegisterationForm.get('cnfpass').touched || userRegisterationForm.get('cnfpass').dirty)">
+            <div class="alert alert-danger" *ngIf="userRegisterationForm.get('cnfpass').errors?.required">
+              Confirm Password required.
+            </div>
+            <div class="alert alert-danger" *ngIf="!doNotMatch && userRegisterationForm.get('cnfpass').errors">
+                Password and confirm password Won't Match.
+              </div>
+          </span>
+        </div><br>
+  
+      <button type="submit" class="btn btn-success" [disabled]=" !userRegisterationForm.valid && checkPassword">Submit</button>&nbsp;&nbsp;&nbsp;
+      <a routerLinkActive="active" rel="login" routerLink="/login">Already Registered</a>
+    </form>
+  </div>
+</div>
